@@ -22,6 +22,7 @@ helper:
 	git submodule init
 	git submodule update
 	mkdir -p $(DIST)/{BUILD,BUILDROOT,RPMS,SPECS,SOURCES,SRPMS}
+	cp -f $(NAME)/$(NAME).spec $(SPEC)
 	patch -p1 $(SPEC) wine.patch
 	spectool -g -A -f -C $(SRCS) $(SPEC) # https://stackoverflow.com/a/33177482
 	cp -f $(NAME)/* $(SRCS)
