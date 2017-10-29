@@ -1,5 +1,5 @@
 diff --git a/wine.spec b/wine.spec
-index 3d59388..41e6f69 100644
+index 3d59388..bd062c1 100644
 --- a/wine.spec
 +++ b/wine.spec
 @@ -69,6 +69,10 @@ Source502:      wine-README-tahoma
@@ -22,7 +22,7 @@ index 3d59388..41e6f69 100644
  %if 0%{?fedora}
  Requires:       wine-opencl(x86-64) = %{version}-%{release}
  %endif
-@@ -664,10 +668,15 @@ This package adds the opencl driver for wine.
+@@ -664,10 +668,16 @@ This package adds the opencl driver for wine.
  
  # setup and apply wine-staging patches
  gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
@@ -34,6 +34,7 @@ index 3d59388..41e6f69 100644
 +# apply wine-d3d9 patches
 +%patch998 -p1
 +%patch999 -p1
++autoreconf
 +
  # fix parallelized build
  sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
