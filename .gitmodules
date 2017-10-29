@@ -1,0 +1,8 @@
+[submodule "wine"]
+  path = wine
+  url = git://pkgs.fedoraproject.org/rpms/wine.git
+  branch = f26
+[submodule "wine-d3d9-patches"]
+  path = wine-d3d9-patches
+  url = https://github.com/sarnex/wine-d3d9-patches.git
+  branch = master
