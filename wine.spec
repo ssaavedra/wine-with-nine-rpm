@@ -723,6 +723,7 @@ export CFLAGS="`echo $TEMP_CFLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno-e
 %endif
 %{?compholio: --with-xattr} \
 %{?nine: --with-d3dadapter} \
+%{?nine: --with-d3d9-nine} \
  --disable-tests
 
 make %{?_smp_mflags} TARGETFLAGS=""
