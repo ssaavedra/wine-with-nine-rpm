@@ -10,6 +10,7 @@
 # uncomment to enable; comment-out to disable.
 %if 0%{?fedora}
 %global compholio 1
+%global nine 1
 %endif # 0%{?fedora}
 
 # binfmt macros for RHEL
