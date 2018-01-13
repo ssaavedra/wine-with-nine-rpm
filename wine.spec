@@ -42,7 +42,11 @@ Source100:      wine-notepad.desktop
 Source101:      wine-regedit.desktop
 Source102:      wine-uninstaller.desktop
 Source103:      wine-winecfg.desktop
-
+Source104:      wine-winefile.desktop
+Source105:      wine-winemine.desktop
+Source106:      wine-winhelp.desktop
+Source107:      wine-wineboot.desktop
+Source108:      wine-wordpad.desktop
 Source109:      wine-oleview.desktop
 
 # build fixes
@@ -854,6 +858,26 @@ desktop-file-install \
 desktop-file-install \
   --dir=%{buildroot}%{_datadir}/applications \
   %{SOURCE103}
+
+desktop-file-install \
+  --dir=%{buildroot}%{_datadir}/applications \
+  %{SOURCE104}
+
+desktop-file-install \
+  --dir=%{buildroot}%{_datadir}/applications \
+  %{SOURCE105}
+
+desktop-file-install \
+  --dir=%{buildroot}%{_datadir}/applications \
+  %{SOURCE106}
+
+desktop-file-install \
+  --dir=%{buildroot}%{_datadir}/applications \
+  %{SOURCE107}
+
+desktop-file-install \
+  --dir=%{buildroot}%{_datadir}/applications \
+  %{SOURCE108}
 
 desktop-file-install \
   --dir=%{buildroot}%{_datadir}/applications \
