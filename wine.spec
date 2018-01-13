@@ -153,6 +153,10 @@ BuildRequires:  libva-devel
 
 %if 0%{?nine}
 BuildRequires:  mesa-libd3d-devel
+BuildRequires:  libxcb-devel
+BuildRequires:  libdrm-devel
+BuildRequires:  xorg-x11-proto-devel
+BuildRequires:  mesa-libEGL-devel
 %endif
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
