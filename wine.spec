@@ -22,7 +22,7 @@
 
 Name:           wine
 Version:        2.20
-Release:        1%{?dist}
+Release:        2%{?nine:.with_nine}%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
