@@ -1,5 +1,5 @@
 diff --git a/wine.spec b/wine.spec
-index 3d59388..bd062c1 100644
+index bf6c1b7..d8ef63e 100644
 --- a/wine.spec
 +++ b/wine.spec
 @@ -69,6 +69,10 @@ Source502:      wine-README-tahoma
@@ -10,10 +10,10 @@ index 3d59388..bd062c1 100644
 +Patch998:       staging-helper.patch
 +Patch999:       wine-d3d9.patch
 +
+ %if 0%{?compholio}
  # wine compholio patches for wine-staging
  # pulseaudio-patch is covered by that patch-set, too.
- Source900: https://github.com/compholio/wine-compholio/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
-@@ -191,7 +195,7 @@ Requires:       wine-twain(x86-64) = %{version}-%{release}
+@@ -200,7 +204,7 @@ Requires:       wine-twain(x86-64) = %{version}-%{release}
  Requires:       wine-pulseaudio(x86-64) = %{version}-%{release}
  %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
  Requires:       wine-openal(x86-64) = %{version}-%{release}
@@ -22,14 +22,9 @@ index 3d59388..bd062c1 100644
  %if 0%{?fedora}
  Requires:       wine-opencl(x86-64) = %{version}-%{release}
  %endif
-@@ -664,10 +668,16 @@ This package adds the opencl driver for wine.
+@@ -687,6 +691,11 @@ gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
  
- # setup and apply wine-staging patches
- gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
-+
- %if 0%{?compholio}
- 
- make -C patches DESTDIR="`pwd`" install
+ patches/patchinstall.sh DESTDIR="`pwd`" --all
  
 +# apply wine-d3d9 patches
 +%patch998 -p1
@@ -38,4 +33,3 @@ index 3d59388..bd062c1 100644
 +
  # fix parallelized build
  sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
- 
