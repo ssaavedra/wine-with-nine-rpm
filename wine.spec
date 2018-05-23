@@ -10,6 +10,7 @@
 # wine-staging appears to be dead
 %if 0%{?fedora}
 %global compholio 1
+%global nine 1
 %endif # 0%{?fedora}
 
 # binfmt macros for RHEL
@@ -22,7 +23,7 @@
 
 Name:           wine
 Version:        3.8
-Release:        1%{?dist}
+Release:        1%{?nine:.with_nine}%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -68,6 +69,12 @@ Source501:      wine-tahoma.conf
 Source502:      wine-README-tahoma
 
 Patch511:       wine-cjk.patch
+
+%if 0%{?nine}
+# wine-d3d9 patches
+Patch998:       staging-helper.patch
+Patch999:       wine-d3d9.patch
+%endif
 
 %if 0%{?compholio}
 # wine compholio patches for wine-staging
@@ -156,6 +163,14 @@ BuildRequires:  libattr-devel
 BuildRequires:  libva-devel
 %endif # 0%{?compholio}
 
+%if 0%{?nine}
+BuildRequires: mesa-libd3d-devel
+BuildRequires: libxcb-devel
+BuildRequires: libdrm-devel
+BuildRequires: xorg-x11-proto-devel
+BuildRequires: mesa-libEGL-devel
+%endif
+
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
 BuildRequires:  openal-soft-devel
 BuildRequires:  icoutils
@@ -200,7 +215,7 @@ Requires:       wine-twain(x86-64) = %{version}-%{release}
 Requires:       wine-pulseaudio(x86-64) = %{version}-%{release}
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
 Requires:       wine-openal(x86-64) = %{version}-%{release}
-%endif 
+%endif
 %if 0%{?fedora}
 Requires:       wine-opencl(x86-64) = %{version}-%{release}
 %endif
@@ -284,6 +299,9 @@ Requires:       vulkan(x86-32)
 %if 0%{?compholio}
 Requires:       libva(x86-32)
 %endif
+%if 0%{?nine}
+Requires:	mesa-libd3d(x86-32)
+%endif
 %endif
 
 %ifarch x86_64
@@ -307,6 +325,9 @@ Requires:       SDL2(x86-64)
 Requires:       vulkan(x86-64)
 %if 0%{?compholio}
 Requires:       libva(x86-64)
+%endif
+%if 0%{?nine}
+Requires:	mesa-libd3d(x86-64)
 %endif
 %endif
 
@@ -687,6 +708,13 @@ gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 
 patches/patchinstall.sh DESTDIR="`pwd`" --all
 
+%if 0%{?nine}
+# apply wine-d3d9 patches
+%patch998 -p1
+%patch999 -p1
+autoreconf -f
+%endif
+
 # fix parallelized build
 sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
 
@@ -717,6 +745,8 @@ export CC="/usr/bin/clang"
  --enable-win64 \
 %endif
 %{?compholio: --with-xattr} \
+%{?nine: --with-d3dadapter} \
+%{?nine: --with-d3d-nine} \
  --disable-tests
 
 make %{?_smp_mflags} TARGETFLAGS=""
@@ -1428,6 +1458,9 @@ fi
 %{_libdir}/wine/ctapi32.dll.so
 %{_libdir}/wine/ctl3d32.dll.so
 %{_libdir}/wine/d2d1.dll.so
+%if 0%{?nine}
+%{_libdir}/wine/d3d9-nine.dll.so
+%%endif
 %{_libdir}/wine/d3d10.dll.so
 %{_libdir}/wine/d3d10_1.dll.so
 %{_libdir}/wine/d3d10core.dll.so
@@ -2204,6 +2237,9 @@ fi
 %endif
 
 %changelog
+* Wed May 23 2018 Santiago Saavedra <info@ssaavedra.eu> 3.8-1.with_nine
+- apply nine patches
+
 * Sat May 12 2018 Michael Cronenworth <mike@cchtml.com> 3.8-1
 - version update
 
